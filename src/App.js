@@ -3,6 +3,17 @@ import logo from './logo.svg';
 import './App.css';
 
 class App extends Component {
+
+  componentDidMount = ()=>{
+    console.log('Component Did Mount');
+  };
+
+  componentWillMount = ()=>{
+    console.log('Component Will Mount');
+  };
+
+  
+
   render() {
     return (
       <div className="App">
@@ -17,7 +28,7 @@ class App extends Component {
         <p>Test paragraph.</p>
       </div>
     );
-  }
+  };
 }
 
 export default App;
