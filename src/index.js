@@ -10,7 +10,7 @@ class App extends React.Component {
              
         this.state = {
             userMessages: [],
-            botMessages: [],
+            botMessages: ["hello there", "nice to meet you", "my name is pizzabot"],
         }
     }
 
@@ -24,21 +24,25 @@ class App extends React.Component {
     }
 
     showUserMessages() {
+
         var userConvo = this.state.userMessages;
 
         if (this.state.userMessages.length === 0) {
             console.log('conversation not yet started, exiting...')
             return;
         } 
+        
+        var updatedConvo = userConvo.map((data, index)=>{
+            return <UserBubble message={data} key={index} />
+        });
 
-        userConvo.map((message, index)=><UserBubble />);
+        return updatedConvo;
         
     }
 
     render() {
-       
-        return (
 
+        return (
             <div id="app-container">
                 <h1>ChatBot</h1>
                 {this.showUserMessages()}
