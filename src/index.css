@@ -1,5 +1,16 @@
-body {
-  margin: 0;
-  padding: 0;
-  font-family: sans-serif;
+#app-container {
+    max-width: 420px;
+    margin: 0 auto;
+}
+
+input#chat {
+    width: 100%;
+}
+
+.chat-bubble {
+    background: rgb(25, 101, 182);
+    padding: 10px;
+    color: #fff;
+    margin: 10px 0;
+    border-radius: 6px;
 }
