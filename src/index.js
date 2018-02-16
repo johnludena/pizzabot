@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import '../node_modules/skeleton-css/css/skeleton.css';
+// import botAvatar from './images/bot-avatar.png';
 
 class App extends React.Component {
 
@@ -10,8 +11,29 @@ class App extends React.Component {
              
         this.state = {
             userMessages: [],
-            botMessages: ["hello there", "nice to meet you", "my name is pizzabot"],
+            botMessages: [],
         }
+    }
+
+    componentDidMount = () => {
+        fetch('https://jsonplaceholder.typicode.com/posts')
+        .then((response) => {
+            console.log('RESPONSE =>', response);
+            return response.json();
+        })
+        .then((json) => {
+            console.log('JSON=>', json);
+            console.log(typeof json);
+            var titlesArray = json.map(function(obj){
+                return obj.title;
+            });
+
+            this.setState({
+                botMessages: titlesArray
+            })
+
+            console.log('botMessages array on state is now:', this.state.botMessages);
+        });
     }
 
     updateUserMessages = (newMessage ) => {
@@ -23,7 +45,7 @@ class App extends React.Component {
         })
     }
 
-    showUserMessages() {
+    showMessages() {
 
         var userConvo = this.state.userMessages;
 
@@ -33,7 +55,12 @@ class App extends React.Component {
         } 
         
         var updatedConvo = userConvo.map((data, index)=>{
-            return <UserBubble message={data} key={index} />
+            return (
+                <div className="conversation-pair" key={'convo' + index}> 
+                    <UserBubble message={data} key={'u'+index} />
+                    <BotBubble message={this.state.botMessages[index]} key={'b'+index} />
+                </div>
+            )
         });
 
         return updatedConvo;
@@ -44,8 +71,7 @@ class App extends React.Component {
 
         return (
             <div id="app-container">
-                <h1>ChatBot</h1>
-                {this.showUserMessages()}
+                <div className="convo-container">{this.showMessages()}</div>
                 <UserInput userMessage = {this.state.userMessage} updateUserMessages = {this.updateUserMessages} />
             </div>
             
@@ -57,9 +83,43 @@ class UserBubble extends React.Component {
 
     render() {
 
-        console.log('UserBubble component...');
         return (
-            <div className="chat-bubble">{this.props.message}</div>
+            <div className="chat-bubble user">{this.props.message}</div>
+        )
+    }
+}
+
+
+class BotBubble extends React.Component {
+
+    constructor(props) {
+        super(props);
+
+        // this.state = {
+        //     visibility: "hidden"
+        // }
+
+    }
+
+    // componentWillMount = () =>{
+        
+    //     setTimeout(()=>{
+    //         this.setState({
+    //             visibility: "show",
+    //         })
+    //     }, 1000)
+    // }
+    
+    render() {
+
+        return (
+            <div className="bot-message-container">
+                <div className="img-avatar-container">
+                    <img className="bot-avatar" src="https://api.adorable.io/avatars/285/abott@adorable.png" alt="bot avatar" />
+                </div>
+                
+                <div className="chat-bubble bot">{this.props.message}</div>
+            </div>
         )
     }
 }
@@ -79,7 +139,9 @@ class UserInput extends React.Component {
     
     render() {
         return (
-            <input id="chat" type="text" onKeyPress={this.handleChange} placeholder="type in your text to chat" />
+            <div className="input-container">
+                <input id="chat" type="text" onKeyPress={this.handleChange} placeholder="type in your text to chat" />
+            </div>
         )
     }
 }
