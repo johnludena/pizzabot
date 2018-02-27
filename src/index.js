@@ -34,7 +34,7 @@ class App extends React.Component {
         fetch(request)
         .then(response => response.json())
         .then(json => {
-            console.log('BOT MESSAGE:', json.result.fulfillment.speech);
+            console.log('BOT RESPONSE:', json.result.fulfillment.speech);
 
             var botResponse = json.result.fulfillment.speech;
 
