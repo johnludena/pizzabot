@@ -15,45 +15,49 @@ class App extends React.Component {
         }
     }
 
-    componentDidMount = () => {
-        fetch('https://jsonplaceholder.typicode.com/posts')
-        .then((response) => {
-            console.log('RESPONSE =>', response);
-            return response.json();
-        })
-        .then((json) => {
-            console.log('JSON=>', json);
-            console.log(typeof json);
-            var titlesArray = json.map(function(obj){
-                return obj.title;
-            });
-
-            this.setState({
-                botMessages: titlesArray
-            })
-
-            console.log('botMessages array on state is now:', this.state.botMessages);
-        });
-    }
-
     updateUserMessages = (newMessage ) => {
 
-        var newStateArr = this.state.userMessages;
+        // Create a new array from current user messages
+        var updatedUserMessagesArr = this.state.userMessages;
 
-        this.setState({
-            userMessages: newStateArr.concat(newMessage)
+        // Create a new array from current bot messages
+        var updatedBotMessagesArr = this.state.botMessages;
+
+        // Get the request to DialogFlow in a nice little package with the user's message
+        var request = new Request('https://api.dialogflow.com/v1/query?v=20150910&contexts=shop&lang=en&query=' + newMessage + '&sessionId=12345', {
+            headers: new Headers({
+                "Authorization": "Bearer a38639f6a5a94fbbb1ef697e95a3d615"
+            })
+        });
+
+        // Send the request via fetch
+        fetch(request)
+        .then(response => response.json())
+        .then(json => {
+            console.log('BOT MESSAGE:', json.result.fulfillment.speech);
+
+            var botResponse = json.result.fulfillment.speech;
+
+            // Update state with both user and bot's latest messages
+            this.setState({
+                userMessages: updatedUserMessagesArr.concat(newMessage),
+                botMessages: updatedBotMessagesArr.concat(botResponse)
+            })
         })
+        .catch(function(error) { 
+            console.log ('ERROR =>', error);
+        });
     }
 
     showMessages() {
 
         var userConvo = this.state.userMessages;
 
+        // Exit function and stop rendering if user messages equals 0
         if (this.state.userMessages.length === 0) {
-            console.log('conversation not yet started, exiting...')
             return;
         } 
-        
+
         var updatedConvo = userConvo.map((data, index)=>{
             return (
                 <div className="conversation-pair" key={'convo' + index}> 
@@ -94,22 +98,16 @@ class BotBubble extends React.Component {
 
     constructor(props) {
         super(props);
+    }
 
-        // this.state = {
-        //     visibility: "hidden"
-        // }
+    scrollToBottom = () => {
+        // Scroll to bottom of container automatically
+        var convoContainer = document.querySelector('.convo-container');
+
+        convoContainer.scrollTop = convoContainer.scrollHeight;
 
     }
 
-    // componentWillMount = () =>{
-        
-    //     setTimeout(()=>{
-    //         this.setState({
-    //             visibility: "show",
-    //         })
-    //     }, 1000)
-    // }
-    
     render() {
 
         return (
@@ -119,6 +117,7 @@ class BotBubble extends React.Component {
                 </div>
                 
                 <div className="chat-bubble bot">{this.props.message}</div>
+                {this.scrollToBottom()}
             </div>
         )
     }

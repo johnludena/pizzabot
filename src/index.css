@@ -12,8 +12,11 @@ body {
 }
 
 .convo-container {
-    overflow-y: scroll;
     height: 80vh;
+    max-height: 100%;
+    position: absolute;
+    bottom: 20%;
+    /* overflow-y: scroll; */
 }
 
 .input-container {
@@ -54,7 +57,7 @@ body {
     animation-name: revealright;
     animation-duration: .3s;
     animation-timing-function: ease;
-    animation-delay: 1s;
+    /* animation-delay: 1s; */
     animation-iteration-count: 1;
     animation-direction: normal;
     animation-fill-mode: forwards;
