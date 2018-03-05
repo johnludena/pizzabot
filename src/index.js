@@ -34,7 +34,7 @@ class App extends React.Component {
         fetch(request)
         .then(response => response.json())
         .then(json => {
-            console.log('BOT RESPONSE:', json.result.fulfillment.speech);
+            // console.log('BOT RESPONSE:', json.result.fulfillment.speech);
 
             var botResponse = json.result.fulfillment.speech;
 
@@ -101,10 +101,16 @@ class BotBubble extends React.Component {
     }
 
     scrollToBottom = () => {
+
         // Scroll to bottom of container automatically
         var convoContainer = document.querySelector('.convo-container');
 
-        convoContainer.scrollTop = convoContainer.scrollHeight;
+         var newHeight = convoContainer.scrollHeight + 500;
+
+         convoContainer.scrollTop = newHeight;
+
+        console.log('convoContainer.scrollHeight =>', convoContainer.scrollHeight);
+        console.log('convoContainer.scrollHeight =>', newHeight);
 
     }
 

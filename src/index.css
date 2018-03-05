@@ -1,22 +1,30 @@
 body {
     font-family: 'Helvetica', Arial, sans-serif;
     font-size: 12px;
+    margin: 0;
 }
 
 #app-container {
-    max-width: 420px;
     margin: 0 auto;
     position: relative;
     height: 100vh;
     padding: 10px;
+    width: 100%;
+    box-sizing: border-box;
+    max-width: 420px;
 }
 
+::-webkit-scrollbar {
+    display: none;
+    }
+
 .convo-container {
-    height: 80vh;
-    max-height: 100%;
+    height: 100%;
+    width: 100%;
+    max-width: 100%;
+    max-height: 80vh;
     position: absolute;
-    bottom: 20%;
-    /* overflow-y: scroll; */
+    overflow-y: scroll;
 }
 
 .input-container {
@@ -36,6 +44,8 @@ body {
     background: rgb(25, 101, 182);
     padding: 8px 15px;
     color: #fff;
+    /* width: 93%; */
+    box-sizing: border-box;
     
 }
 
