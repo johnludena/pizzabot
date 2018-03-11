@@ -12,10 +12,11 @@ class App extends React.Component {
         this.state = {
             userMessages: [],
             botMessages: [],
+            botLoading: true,
         }
     }
 
-    updateUserMessages = (newMessage ) => {
+    updateUserMessages = (newMessage) => {
 
         // Create a new array from current user messages
         var updatedUserMessagesArr = this.state.userMessages;
@@ -34,7 +35,7 @@ class App extends React.Component {
         fetch(request)
         .then(response => response.json())
         .then(json => {
-            // console.log('BOT RESPONSE:', json.result.fulfillment.speech);
+            console.log('BOT RESPONSE:', json.result.fulfillment.speech);
 
             var botResponse = json.result.fulfillment.speech;
 
@@ -88,7 +89,9 @@ class UserBubble extends React.Component {
     render() {
 
         return (
-            <div className="chat-bubble user">{this.props.message}</div>
+            <div className="user-message-container">
+                <div className="chat-bubble user">{this.props.message}</div>
+            </div>
         )
     }
 }
@@ -100,18 +103,10 @@ class BotBubble extends React.Component {
         super(props);
     }
 
-    scrollToBottom = () => {
+    componentDidMount = () => {
 
-        // Scroll to bottom of container automatically
-        var convoContainer = document.querySelector('.convo-container');
-
-         var newHeight = convoContainer.scrollHeight + 500;
-
-         convoContainer.scrollTop = newHeight;
-
-        console.log('convoContainer.scrollHeight =>', convoContainer.scrollHeight);
-        console.log('convoContainer.scrollHeight =>', newHeight);
-
+        var lastBubble = this.refs.chatBubble;
+        lastBubble.scrollIntoView(true);
     }
 
     render() {
@@ -122,8 +117,7 @@ class BotBubble extends React.Component {
                     <img className="bot-avatar" src="https://api.adorable.io/avatars/285/abott@adorable.png" alt="bot avatar" />
                 </div>
                 
-                <div className="chat-bubble bot">{this.props.message}</div>
-                {this.scrollToBottom()}
+                <div className="chat-bubble bot" ref="chatBubble">{this.props.message}</div>
             </div>
         )
     }
@@ -147,6 +141,7 @@ class UserInput extends React.Component {
             <div className="input-container">
                 <input id="chat" type="text" onKeyPress={this.handleChange} placeholder="type in your text to chat" />
             </div>
+
         )
     }
 }

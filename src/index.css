@@ -4,13 +4,20 @@ body {
     margin: 0;
 }
 
+/* Prevent zoom effect on mobile for input */
+input[type='text'],
+input[type='number'],
+textarea {
+  font-size: 16px;
+}
+
 #app-container {
     margin: 0 auto;
     position: relative;
     height: 100vh;
     padding: 10px;
     width: 100%;
-    box-sizing: border-box;
+    /* box-sizing: border-box; */
     max-width: 420px;
 }
 
@@ -20,10 +27,9 @@ body {
 
 .convo-container {
     height: 100%;
-    width: 100%;
+    /* width: 95%; */
     max-width: 100%;
     max-height: 80vh;
-    position: absolute;
     overflow-y: scroll;
 }
 
@@ -50,6 +56,11 @@ body {
 }
 
 /* USER chat bubble */
+.user-message-container {
+    display: flex;
+    justify-content: flex-end;
+}
+
 .chat-bubble.user {
     background: #5f6fee;
     border-radius: 20px 20px 3px 20px;
@@ -62,27 +73,15 @@ body {
     background: #fff;
     color: #5a5a5a;
     margin: 0;
-    opacity: 0;
+    opacity: 1;
     border-radius: 3px 20px 20px 20px;
-    animation-name: revealright;
+    /* animation-name: revealright;
     animation-duration: .3s;
     animation-timing-function: ease;
-    /* animation-delay: 1s; */
     animation-iteration-count: 1;
     animation-direction: normal;
     animation-fill-mode: forwards;
-    animation-play-state: revealright;
-}
-
-@keyframes revealright {
-    from {
-        opacity: 0;
-        width: 50%;
-    }
-    to { 
-        opacity: 1;
-        width: 100%;
-    }
+    animation-play-state: revealright; */
 }
 
 .bot-message-container {
@@ -92,12 +91,29 @@ body {
 
     .bot-message-container > div:first-child {
         margin-right: 10px;
+        width: 40px;
     }
+
+    /* .bot-message-container > div:nth-child(2) {
+        flex: 0 1 auto;
+    } */
 
 .bot-message-container img {
     border-radius: 50%;
     max-width: 30px;
 }
+
+/* ANIMATIONS */
+/* @keyframes revealright {
+    from {
+        opacity: 0;
+        width: 50%;
+    }
+    to { 
+        opacity: 1;
+        width: 100%;
+    }
+} */
 
 /* General bubble styles for both USER & BOT */
 .hidden {
