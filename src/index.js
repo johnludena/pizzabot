@@ -12,7 +12,7 @@ class App extends React.Component {
         this.state = {
             userMessages: [],
             botMessages: [],
-            botLoading: true,
+            botLoading: false,
         }
     }
 
@@ -23,6 +23,12 @@ class App extends React.Component {
 
         // Create a new array from current bot messages
         var updatedBotMessagesArr = this.state.botMessages;
+
+        // Render user message and bot's loading message
+        this.setState({
+            userMessages: updatedUserMessagesArr.concat(newMessage),
+            botLoading: true,
+        })
 
         // Get the request to DialogFlow in a nice little package with the user's message
         var request = new Request('https://api.dialogflow.com/v1/query?v=20150910&contexts=shop&lang=en&query=' + newMessage + '&sessionId=12345', {
@@ -41,9 +47,11 @@ class App extends React.Component {
 
             // Update state with both user and bot's latest messages
             this.setState({
-                userMessages: updatedUserMessagesArr.concat(newMessage),
-                botMessages: updatedBotMessagesArr.concat(botResponse)
+                botMessages: updatedBotMessagesArr.concat(botResponse),
+                botLoading: false,
             })
+
+            
         })
         .catch(function(error) { 
             console.log ('ERROR =>', error);
@@ -54,16 +62,19 @@ class App extends React.Component {
 
         var userConvo = this.state.userMessages;
 
-        // Exit function and stop rendering if user messages equals 0
+        // Exit function and stop rendering if user hasnt' started conversation yet
         if (this.state.userMessages.length === 0) {
             return;
         } 
 
         var updatedConvo = userConvo.map((data, index)=>{
+
+            var botResponse = this.state.botMessages[index];
+            
             return (
                 <div className="conversation-pair" key={'convo' + index}> 
                     <UserBubble message={data} key={'u'+index} />
-                    <BotBubble message={this.state.botMessages[index]} key={'b'+index} />
+                    <BotBubble message={botResponse} key={'b'+index} />
                 </div>
             )
         });
@@ -99,10 +110,6 @@ class UserBubble extends React.Component {
 
 class BotBubble extends React.Component {
 
-    constructor(props) {
-        super(props);
-    }
-
     componentDidMount = () => {
 
         var lastBubble = this.refs.chatBubble;
@@ -117,7 +124,7 @@ class BotBubble extends React.Component {
                     <img className="bot-avatar" src="https://api.adorable.io/avatars/285/abott@adorable.png" alt="bot avatar" />
                 </div>
                 
-                <div className="chat-bubble bot" ref="chatBubble">{this.props.message}</div>
+                <div className="chat-bubble bot" ref="chatBubble">{this.props.message ? this.props.message : '...'}</div>
             </div>
         )
     }
