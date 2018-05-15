@@ -10,11 +10,13 @@ body {
     line-height: 20px;
 }
 
+::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+    color: #cecece;
+ }
+
 
 /* Prevent zoom effect on mobile for inputs */
-input[type='text'],
-input[type='number'],
-textarea {
+input[type='text'] {
   font-size: 16px;
 }
 
@@ -46,7 +48,7 @@ textarea {
     padding-bottom: 50vh;
 }
 
-.input-container {
+.input-wrapper {
     width: 100%;
     background: #fff;
     max-width: inherit;
@@ -57,19 +59,34 @@ textarea {
     box-sizing: border-box;
     padding: 10px;
 }
+
+.input-container {
+    padding: 15px 10px;
+    display: flex;
+    border: 1px solid #cecece;
+    border-radius: 6px;
+    padding: 7px 10px;
+}
+
+
 .input-container input {
     width: 100%;
-    padding: 6px 10px;
-    border-radius: 46px;
-    border: 1px solid #cecece;
+    padding: 0;
+    border: none;
     box-sizing: border-box;
 }
 
-.input-container input:focus {
-    outline: none;    
-    border: 1px solid #5f6fee;
+.input-container input {
+    outline: none;
 }
 
+.input-container #submit-icon {
+    cursor: pointer;
+}
+
+.input-container #submit-icon:hover polygon {
+    fill: #5865ce;
+}
 
 .chat-bubble {
     background: rgb(25, 101, 182);
@@ -84,7 +101,8 @@ textarea {
 .user-message-container {
     display: flex;
     justify-content: flex-end;
-    animation: revealup .5s 0s cubic-bezier(0,.57,.81,1.01) forwards;
+    opacity: 0;
+    animation: reveal 1s .2s cubic-bezier(.16,1.01,.54,1) forwards;
 }
 
 .chat-bubble.user {
@@ -106,7 +124,8 @@ textarea {
 .bot-message-container {
     display: flex;
     margin: 10px 0;
-    animation: revealup .5s .2s cubic-bezier(0,.57,.81,1.01) forwards;
+    opacity: 0;
+    animation: reveal2 1s .8s cubic-bezier(0,.57,.81,1.01) forwards;
 }
 
     .bot-message-container > div:first-child {
@@ -118,8 +137,12 @@ textarea {
         flex: 0 1 auto;
     } */
 
-.bot-message-container img {
+.bot-message-container .bot-avatar {
     border-radius: 50%;
+    max-width: 30px;
+}
+
+.loader {
     max-width: 30px;
 }
 
@@ -163,15 +186,24 @@ textarea {
     font-size: 40px;
 }
 
-/* ANIMATIONS */
-@keyframes revealup {
+/* CSS ANIMATIONS */
+@keyframes reveal {
     from {
         opacity: 0;
-        margin-top: 20px;
+        margin-top: 200px;
     }
     to { 
         opacity: 1;
         margin-top: 0;
+    }
+}
+
+@keyframes reveal2 {
+    from {
+        opacity: 0;
+    }
+    to { 
+        opacity: 1;
     }
 }
 

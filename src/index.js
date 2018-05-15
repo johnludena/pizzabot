@@ -1,9 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-// import '../node_modules/skeleton-css/css/skeleton.css';
-import pizzaAnimation from './images/pizza-3-final.gif';
+import chatLoader from './images/chat-loader.svg';
+import submitIcon from './images/submit-icon.svg';
 // import botAvatar from './images/bot-avatar.png';
+
 
 class App extends React.Component {
 
@@ -13,7 +14,7 @@ class App extends React.Component {
         this.state = {
             userMessages: [],
             botMessages: [],
-            botGreeting: 'Hi there! My name is PizzaBot. I can help you get pizza! You can say something like \'I want a pepperoni pizza delivered to 12345 Main Ave.\' Try it below!',
+            botGreeting: 'Hi there! My name is PizzaBot. I can help you get pizza! Just type something lke \'I want a pepperoni pizza delivered to 12345 Main Ave.\' Try it below!',
             botLoading: false,
         }
     }
@@ -140,13 +141,15 @@ class BotBubble extends React.Component {
 
     render() {
 
+        let svgLoader = <img className="loader" src={chatLoader} alt="loading icon" />
+
         return (
             <div className="bot-message-container">
                 <div className="img-avatar-container">
                     <img className="bot-avatar" src="https://api.adorable.io/avatars/285/abott@adorable.png" alt="bot avatar" />
                 </div>
                 <div>
-                    <div className="chat-bubble bot" ref="chatBubble">{this.props.message ? this.props.message : '...'}</div>
+                    <div className="chat-bubble bot" ref="chatBubble">{this.props.message ? this.props.message : svgLoader}</div>
                     <div className="time-stamp">{this.getTimeStamp()}</div>
                 </div>
             </div>
@@ -157,21 +160,52 @@ class BotBubble extends React.Component {
 
 class UserInput extends React.Component {
 
+    componentDidMount = () => {
+        this.chatInput.focus(); // focus automatically on input on page load
+    }
+
     handleChange = (event) => {
 
-        if (event.key === 'Enter') {
-            var userInput = event.target.value;
+        console.log('handleClick triggered');
+        if (this.chatInput.value !== '') { // checking for empty input
+            if (event.key === 'Enter') {
+                var userInput = this.chatInput.value;
+    
+                // update state on parent component
+                this.props.updateUserMessages(userInput);
+                event.target.value = '';
+            }
+        }
+
+        return;
+        
+    }
+
+    handleClick = (event) => {
+
+        if (this.chatInput.value !== '') { // checking for empty input
+            var userInput = this.chatInput.value;
 
             // update state on parent component
             this.props.updateUserMessages(userInput);
-            event.target.value = '';
+            this.chatInput.value = '';
+            this.chatInput.focus(); // focus automatically on input on page load
         }
+
+        return;
+
     }
     
     render() {
+
+        var submitIcon = <svg onClick={this.handleClick} id="submit-icon" version="1.1" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 500 500"><g><g><polygon fill="#7c7c82" points="0,497.25 535.5,267.75 0,38.25 0,216.75 382.5,267.75 0,318.75"></polygon></g></g></svg>
+
         return (
-            <div className="input-container">
-                <input id="chat" type="text" onKeyPress={this.handleChange} placeholder="type in your text to chat" />
+            <div className="input-wrapper">
+                <div className="input-container">
+                    <input id="chat" ref={(input) => { this.chatInput = input; }} type="text" onKeyPress={this.handleChange} placeholder="Type and press 'enter' to chat" />
+                    {submitIcon}
+                </div>
             </div>
 
         )
