@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css?family=Tajawal');
+
 * {
     box-sizing: border-box;
 }
@@ -7,7 +9,9 @@ body {
     font-size: 14px;
     padding: 0;
     margin: 0;
-    line-height: 20px;
+    line-height: 18px;
+    font-family: 'Tajawal', sans-serif;
+    vertical-align: text-bottom;
 }
 
 ::-webkit-input-placeholder { /* Chrome/Opera/Safari */
@@ -18,6 +22,7 @@ body {
 /* Prevent zoom effect on mobile for inputs */
 input[type='text'] {
   font-size: 16px;
+  font-family: 'Tajawal', sans-serif;
 }
 
 #app-container {
@@ -90,7 +95,7 @@ input[type='text'] {
 
 .chat-bubble {
     background: rgb(25, 101, 182);
-    padding: 8px 15px;
+    padding: 8px 15px 6px;
     color: #fff;
     /* width: 93%; */
     box-sizing: border-box;
@@ -139,7 +144,9 @@ input[type='text'] {
 
 .bot-message-container .bot-avatar {
     border-radius: 50%;
-    max-width: 30px;
+    max-width: 40px;
+    background: #5f6fee;
+    padding: 3px;
 }
 
 .loader {

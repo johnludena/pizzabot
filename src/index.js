@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import chatLoader from './images/chat-loader.svg';
 import submitIcon from './images/submit-icon.svg';
-// import botAvatar from './images/bot-avatar.png';
+import botAvatar from './images/pizza-avatar.svg';
 
 
 class App extends React.Component {
@@ -14,7 +14,7 @@ class App extends React.Component {
         this.state = {
             userMessages: [],
             botMessages: [],
-            botGreeting: 'Hi there! My name is PizzaBot. I can help you get pizza! Just type something lke \'I want a pepperoni pizza delivered to 12345 Main Ave.\' Try it below!',
+            botGreeting: 'Hi, my name is PizzaBot! I can help you get pizza. Try typing something like \"I want a pepperoni pizza.\" below.',
             botLoading: false,
         }
     }
@@ -146,7 +146,7 @@ class BotBubble extends React.Component {
         return (
             <div className="bot-message-container">
                 <div className="img-avatar-container">
-                    <img className="bot-avatar" src="https://api.adorable.io/avatars/285/abott@adorable.png" alt="bot avatar" />
+                    <img className="bot-avatar" src={botAvatar} alt="bot avatar" />
                 </div>
                 <div>
                     <div className="chat-bubble bot" ref="chatBubble">{this.props.message ? this.props.message : svgLoader}</div>
