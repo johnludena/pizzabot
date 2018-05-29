@@ -162,6 +162,7 @@ class UserInput extends React.Component {
 
     componentDidMount = () => {
         this.chatInput.focus(); // focus automatically on input on page load
+        console.log('componentDidMount > UserInput');
     }
 
     handleChange = (event) => {
