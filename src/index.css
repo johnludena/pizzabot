@@ -225,7 +225,7 @@ input[type='text'] {
 
 @media screen and (min-width: 550px) {
     body {
-        font-size: 1.2em;
+        font-size: 1.5em;
         line-height: 1.3;
     }
 
@@ -234,6 +234,6 @@ input[type='text'] {
     }
     
     #app-container {
-        max-width: 550px;
+        max-width: 620px;
     }
 }
