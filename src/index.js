@@ -130,15 +130,6 @@ class BotBubble extends React.Component {
         lastBubble.scrollIntoView(true);
     }
 
-    getTimeStamp = () => {
-        var time = new Date(); // create a new Date object
-        
-        // Format date in 12 hour format (AM/PM) using 'toLocaleString'
-        var formattedDate = time.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
-
-        return formattedDate;
-    }
-
     render() {
 
         let svgLoader = <img className="loader" src={chatLoader} alt="loading icon" />
@@ -150,12 +141,35 @@ class BotBubble extends React.Component {
                 </div>
                 <div>
                     <div className="chat-bubble bot" ref="chatBubble">{this.props.message ? this.props.message : svgLoader}</div>
-                    <div className="time-stamp">{this.getTimeStamp()}</div>
+                    <TimeStamp />
                 </div>
             </div>
             
         )
     }
+}
+
+class TimeStamp extends React.Component {
+
+    shouldComponentUpdate = () => {
+        return false;
+    }
+
+    getTimeStamp = () => {
+        var time = new Date(); // create a new Date object
+        
+        // Format date in 12 hour format (AM/PM) using 'toLocaleString'
+        var formattedDate = time.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
+
+        return formattedDate;
+    }
+
+    render() {
+        return (
+            <div className="time-stamp">{this.getTimeStamp()}</div>
+        )
+    }
+    
 }
 
 class UserInput extends React.Component {
